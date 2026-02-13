@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+
+  mongo:
+    image: mongo:6
+    container_name: rms_mongo
+    restart: always
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: rms_backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+
+  frontend:
+    build: .
+    container_name: rms_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+Netwok:
+   docker-network:
+
+volumes:
+  mongo-data:

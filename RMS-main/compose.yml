@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+
+  mongo:
+    image: mongo:6
+    container_name: rms_mongo
+    restart: always
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rms-network
+
+  backend:
+    build: ./backend
+    container_name: rms_backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5000:5000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - rms-network
+
+  frontend:
+    build: .
+    container_name: rms_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - rms-network
+
+networks:
+  rms-network:
+
+volumes:
+  mongo-data:
