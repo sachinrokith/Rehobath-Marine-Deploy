@@ -3,7 +3,7 @@ import ServiceTemplate from './ServiceTemplate';
 
 const DryDocking = () => {
   const serviceData = {
-    title: "Dry Docking Services",
+    title: "Dry Docking Production & Services",
     description: "Comprehensive dry docking solutions with state-of-the-art facilities and experienced teams for all your maintenance needs.",
     icon: Anchor,
     image: "https://interocean.co.uk/wp-content/uploads/2024/02/AdobeStock_308793177-2048x1151.jpeg",
